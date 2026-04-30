@@ -99,7 +99,6 @@ export default function Menu({ menuData }: MenuProps) {
       <div className="space-y-16 mt-8">
         {filteredMenuData.length > 0 ? (
           filteredMenuData.map((cat) => {
-            const catColors = getCategoryColor(cat.categoria);
             return (
               <div 
                 key={cat.categoria} 
