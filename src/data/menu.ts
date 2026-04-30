@@ -9,6 +9,7 @@ export const menuData = {
   "menu": [
     {
       "categoria": "Sándwiches / Calientes",
+      "imagen": "/Sandwich.jpeg",
       "items": [
         { "id": "s1", "nombre": "Mantequilla", "precio": 2.00 },
         { "id": "s2", "nombre": "Mermelada", "precio": 2.00 },
@@ -41,6 +42,7 @@ export const menuData = {
     },
     {
       "categoria": "Jugos Clásicos",
+      "imagen": "/jugos.webp",
       "items": [
         { "id": "jc1", "nombre": "Papaya", "precio": 8.00 },
         { "id": "jc2", "nombre": "Piña", "precio": 8.00 },
@@ -52,6 +54,7 @@ export const menuData = {
     },
     {
       "categoria": "Jugos Especiales",
+      "imagen": "/jugos%20especiales.jpeg",
       "items": [
         { "id": "je1", "nombre": "Jugo especial", "precio": 10.00 },
         { "id": "je2", "nombre": "Fresa c/ leche", "precio": 10.00 },
@@ -64,6 +67,7 @@ export const menuData = {
     },
     {
       "categoria": "Calientes",
+      "imagen": "/bebidas%20calientes.jpeg",
       "items": [
         { "id": "c1", "nombre": "Café", "precio": 3.00 },
         { "id": "c2", "nombre": "Café c/ Leche", "precio": 4.00 },
@@ -75,6 +79,7 @@ export const menuData = {
     },
     {
       "categoria": "Bebidas Frías",
+      "imagen": "/bebidas%20frias.jpg",
       "items": [
         { "id": "bf1", "nombre": "Limonada", "precio": 5.00 },
         { "id": "bf2", "nombre": "Maracuyá", "precio": 5.00 },
@@ -83,6 +88,7 @@ export const menuData = {
     },
     {
       "categoria": "Frozen",
+      "imagen": "/frozen.jpg",
       "items": [
         { "id": "fz1", "nombre": "Frozen de Maracuyá", "precio": 7.00 },
         { "id": "fz2", "nombre": "Frozen de Limón", "precio": 7.00 },

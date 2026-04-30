@@ -16,7 +16,33 @@ function App() {
   useEffect(() => {
     const savedMenu = localStorage.getItem('laPulpaMenu');
     if (savedMenu) {
-      setMenu(JSON.parse(savedMenu));
+      try {
+        const parsedMenu = JSON.parse(savedMenu);
+        
+        // Failsafe image mapping
+        const imageMap: {[key: string]: string} = {
+          "sándwiches / calientes": "/Sandwich.jpeg",
+          "sandwiches / calientes": "/Sandwich.jpeg",
+          "jugos clásicos": "/jugos.webp",
+          "jugos clasicos": "/jugos.webp",
+          "jugos especiales": "/jugos%20especiales.jpeg",
+          "calientes": "/bebidas%20calientes.jpeg",
+          "bebidas frías": "/bebidas%20frias.jpg",
+          "bebidas frias": "/bebidas%20frias.jpg",
+          "frozen": "/frozen.jpg"
+        };
+
+        const updatedMenu = parsedMenu.map((cat: any) => {
+          const key = cat.categoria.trim().toLowerCase();
+          return {
+            ...cat,
+            imagen: imageMap[key] || cat.imagen
+          };
+        });
+        setMenu(updatedMenu);
+      } catch (e) {
+        setMenu(initialMenuData.menu);
+      }
     } else {
       setMenu(initialMenuData.menu);
     }

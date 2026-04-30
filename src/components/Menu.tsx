@@ -61,12 +61,18 @@ export default function Menu({ menuData }: MenuProps) {
   const filteredMenuData = menuData.filter(cat => cat.items.length > 0);
 
   return (
-    <div id="menu-section" className="max-w-5xl mx-auto px-4 py-8 relative">
+    <div 
+      id="menu-section" 
+      className="max-w-5xl mx-auto px-4 py-8 relative rounded-3xl my-4"
+      style={{
+        background: 'linear-gradient(135deg, #FF6B00 0%, #FF8C33 30%, #43A047 70%, #2E7D32 100%)',
+      }}
+    >
       {/* Categories Bar */}
       <div 
         ref={categoryNavRef}
-        style={{ backgroundColor: 'var(--color-brand-bg)' }}
-        className="flex overflow-x-auto hide-scrollbar gap-3 pb-4 mb-8 -mx-4 px-4 md:mx-0 md:px-0 sticky top-0 z-50 pt-4 border-b border-gray-100 shadow-sm"
+        style={{ backgroundColor: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(12px)' }}
+        className="flex overflow-x-auto hide-scrollbar gap-3 pb-4 mb-8 -mx-4 px-4 md:mx-0 md:px-0 sticky top-0 z-50 pt-4 border-b border-white/10 shadow-lg rounded-2xl"
       >
         {menuData.map((cat) => {
           const colors = getCategoryColor(cat.categoria);
@@ -103,16 +109,24 @@ export default function Menu({ menuData }: MenuProps) {
               >
                 {/* Header Category */}
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className={`text-4xl font-display ${catColors.text}`}>
+                  <h2 className="text-4xl font-display text-white drop-shadow-lg">
                     {cat.categoria}
                   </h2>
                 </div>
 
-                {/* Category Placeholder Image */}
-                <div className="w-full h-48 md:h-64 bg-gray-200 rounded-3xl mb-8 flex items-center justify-center border-4 border-white shadow-sm overflow-hidden">
-                  <span style={{ fontFamily: 'var(--font-robot)' }} className="text-gray-500 font-medium text-xl tracking-widest uppercase opacity-70">
-                    acá va imagen
-                  </span>
+                {/* Category Image */}
+                <div className="w-full h-48 md:h-64 rounded-3xl mb-8 flex items-center justify-center border-2 border-white/30 shadow-sm overflow-hidden backdrop-blur-sm relative">
+                  {cat.imagen ? (
+                    <img 
+                      src={cat.imagen} 
+                      alt={cat.categoria} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span style={{ fontFamily: 'var(--font-robot)' }} className="text-white/70 font-medium text-xl tracking-widest uppercase">
+                      acá va imagen
+                    </span>
+                  )}
                 </div>
 
                 {/* Grid of items */}
