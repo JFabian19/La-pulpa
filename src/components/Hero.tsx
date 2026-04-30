@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MessageCircle, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
 
 export default function Hero() {
   return (
