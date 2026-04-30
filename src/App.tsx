@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
+import Footer from './components/Footer';
 import OrderPanel from './components/OrderPanel';
 import FloatingOrderButton from './components/FloatingOrderButton';
 import { OrderProvider } from './context/OrderContext';
@@ -38,6 +39,7 @@ function App() {
         <div className="relative z-10">
           <Hero />
           <Menu menuData={menu} />
+          <Footer />
         </div>
 
         {/* Floating Order Button */}

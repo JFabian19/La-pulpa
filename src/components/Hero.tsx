@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MessageCircle, Phone, MapPin } from 'lucide-react';
+import { MessageCircle, Phone } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -62,7 +62,9 @@ export default function Hero() {
             <Phone size={24} />
           </a>
           <a 
-            href="#" 
+            href="https://maps.app.goo.gl/nNvt633evPkKGbaW6" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
             title="Ubicación"
           >
