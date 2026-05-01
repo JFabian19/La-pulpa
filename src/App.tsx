@@ -6,46 +6,60 @@ import OrderPanel from './components/OrderPanel';
 import FloatingOrderButton from './components/FloatingOrderButton';
 import { OrderProvider } from './context/OrderContext';
 import { menuData as initialMenuData } from './data/menu';
+import { fetchMenuFromGoogleSheets } from './utils/googleSheets';
 import type { MenuCategory } from './types';
 
 function App() {
   const [menu, setMenu] = useState<MenuCategory[]>([]);
   const [orderOpen, setOrderOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Load from local storage or use initial data
+  // Failsafe local image mapping
+  const localImageMap: {[key: string]: string} = {
+    "sándwiches / calientes": "/Sandwich.jpeg",
+    "sandwiches / calientes": "/Sandwich.jpeg",
+    "jugos clásicos": "/jugos.webp",
+    "jugos clasicos": "/jugos.webp",
+    "jugos especiales": "/jugos%20especiales.jpeg",
+    "calientes": "/bebidas%20calientes.jpeg",
+    "bebidas frías": "/bebidas%20frias.jpg",
+    "bebidas frias": "/bebidas%20frias.jpg",
+    "frozen": "/frozen.jpg"
+  };
+
   useEffect(() => {
-    const savedMenu = localStorage.getItem('laPulpaMenu');
-    if (savedMenu) {
+    async function loadMenu() {
       try {
-        const parsedMenu = JSON.parse(savedMenu);
+        setLoading(true);
+        // Try fetching from Google Sheets
+        const gsMenu = await fetchMenuFromGoogleSheets();
         
-        // Failsafe image mapping
-        const imageMap: {[key: string]: string} = {
-          "sándwiches / calientes": "/Sandwich.jpeg",
-          "sandwiches / calientes": "/Sandwich.jpeg",
-          "jugos clásicos": "/jugos.webp",
-          "jugos clasicos": "/jugos.webp",
-          "jugos especiales": "/jugos%20especiales.jpeg",
-          "calientes": "/bebidas%20calientes.jpeg",
-          "bebidas frías": "/bebidas%20frias.jpg",
-          "bebidas frias": "/bebidas%20frias.jpg",
-          "frozen": "/frozen.jpg"
-        };
-
-        const updatedMenu = parsedMenu.map((cat: any) => {
+        // Merge with local images if sheet doesn't have one
+        const finalMenu = gsMenu.map(cat => {
           const key = cat.categoria.trim().toLowerCase();
           return {
             ...cat,
-            imagen: imageMap[key] || cat.imagen
+            imagen: cat.imagen || localImageMap[key]
           };
         });
-        setMenu(updatedMenu);
-      } catch (e) {
-        setMenu(initialMenuData.menu);
+        
+        setMenu(finalMenu);
+        localStorage.setItem('laPulpaMenu', JSON.stringify(finalMenu));
+      } catch (error) {
+        console.error('Failed to fetch from Google Sheets, using local data', error);
+        // Fallback to local storage or initial data
+        const savedMenu = localStorage.getItem('laPulpaMenu');
+        if (savedMenu) {
+          setMenu(JSON.parse(savedMenu));
+        } else {
+          setMenu(initialMenuData.menu);
+        }
+      } finally {
+        setLoading(false);
       }
-    } else {
-      setMenu(initialMenuData.menu);
     }
+
+    loadMenu();
   }, []);
 
   return (
@@ -64,7 +78,14 @@ function App() {
 
         <div className="relative z-10">
           <Hero />
-          <Menu menuData={menu} />
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-16 h-16 border-4 border-cat-clasicos border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-white font-display text-2xl drop-shadow-md">Cargando delicias...</p>
+            </div>
+          ) : (
+            <Menu menuData={menu} />
+          )}
           <Footer />
         </div>
 
